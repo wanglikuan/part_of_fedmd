@@ -358,10 +358,15 @@ class FedMD():
             # test performance
             print("test performance ... ")
 
-            for index, model in enumerate(self.collaborative_parties):
-                dataloader =  DataLoader(data(self.private_test_data["X"], self.private_test_data["y"]), batch_size=32,
+            for index, model in enumerate(self.collaborative_parties): #改了测试数据集的数据分布
+                if index < ((self.N_parties)/2):
+                    dataloader =  DataLoader(data(self.private_test_data["X1"], self.private_test_data["y1"]), batch_size=32,
                                           shuffle=True,
                                           sampler=None, batch_sampler=None, num_workers=self.num_workers, drop_last=False)
+                else:
+                    dataloader =  DataLoader(data(self.private_test_data["X2"], self.private_test_data["y2"]), batch_size=32,
+                                          shuffle=True,
+                                          sampler=None, batch_sampler=None, num_workers=self.num_workers, drop_last=False) 
                 acc = val_one_model(model, dataloader, criterion=None, device=torch.device('cuda'))
 
                 collaboration_performance[index].append(acc)
