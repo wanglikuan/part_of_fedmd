@@ -80,8 +80,10 @@ def getdataset(args,conf_dict):
         mod_private_classes = np.arange(len(private_classes)) + len(public_classes) #mod_private_classes=【0~len(private_classes)-1】每个元素加上常数len(public_classes)
 
 #---------------------------------------10~12----------13~15-------
-        mod_private_classes1 = np.arange(len(private_classes)/2) + len(public_classes)
-        mod_private_classes2 = np.arange(len(private_classes)/2) + len(public_classes) + len(private_classes)/2
+        mod_private_classes1 = np.arange(len(private_classes)//2) + len(public_classes)
+        mod_private_classes2 = np.arange(len(private_classes)//2) + len(public_classes) + len(private_classes)//2
+        print("mod_private_class1:", mod_private_classes1)
+        print("mod_private_class2:", mod_private_classes2)
 #---------------------------------------
 
         # print("=" * 60)
@@ -97,7 +99,7 @@ def getdataset(args,conf_dict):
         # generate private data
         private_data1, total_private_data1 \
             = generate_bal_private_data(X_train_private, y_train_private,
-                                        N_parties=N_parties/2,
+                                        N_parties=N_parties//2,
                                         classes_in_use=mod_private_classes1,
                                         N_samples_per_class=N_samples_per_class,
                                         data_overlap=False)
@@ -106,15 +108,15 @@ def getdataset(args,conf_dict):
         # generate private data
         private_data2, total_private_data2 \
             = generate_bal_private_data(X_train_private, y_train_private,
-                                        N_parties=N_parties/2,
+                                        N_parties=N_parties//2,
                                         classes_in_use=mod_private_classes2,
                                         N_samples_per_class=N_samples_per_class,
                                         data_overlap=False)
 
         #----------合并两个list-----
         private_data = private_data1 + private_data2
-        total_private_data = total_private_data1 + total_private_data2
-
+        #total_private_data = dict(total_private_data1, **total_private_data2)
+        total_private_data = dict(total_private_data2, **total_private_data1)
 
 
         # print("=" * 60)
@@ -134,7 +136,8 @@ def getdataset(args,conf_dict):
                                              verbose=True)
         private_test_data2 = {"X2": X_tmp2, "y2": y_tmp2}        
 
-        private_test_data = dict(private_test_data1.items() + private_test_data2.items())
+        #private_test_data = dict(private_test_data1, **private_test_data2)
+        private_test_data = dict(private_test_data2, **private_test_data1)
 
     else:
         X_train_private, y_train_private \
@@ -198,8 +201,8 @@ def get_dataarray(args,dataset):
     elif dataset == 'cifar100':
         train_dataset = datasets.CIFAR100(data_dir, train=True, download=True)
         test_dataset = datasets.CIFAR100(data_dir, train=False, download=True)
-    X_train, y_train= train_dataset.data,train_dataset.targets
-    X_test, y_test = test_dataset.data,test_dataset.targets
+    X_train, y_train= train_dataset.train_data,train_dataset.train_labels
+    X_test, y_test = test_dataset.test_data,test_dataset.test_labels
     return np.array(X_train), np.array(y_train), np.array(X_test), np.array(y_test)
 
 # 每类采样
