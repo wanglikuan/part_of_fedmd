@@ -115,8 +115,8 @@ def getdataset(args,conf_dict):
 
         #----------合并两个list-----
         private_data = private_data1 + private_data2
-        #total_private_data = dict(total_private_data1, **total_private_data2)
-        total_private_data = dict(total_private_data2, **total_private_data1)
+        total_private_data = dict(total_private_data1, **total_private_data2)
+        #total_private_data = dict(total_private_data2, **total_private_data1)
 
 
         # print("=" * 60)
@@ -136,8 +136,8 @@ def getdataset(args,conf_dict):
                                              verbose=True)
         private_test_data2 = {"X2": X_tmp2, "y2": y_tmp2}        
 
-        #private_test_data = dict(private_test_data1, **private_test_data2)
-        private_test_data = dict(private_test_data2, **private_test_data1)
+        private_test_data = dict(private_test_data1, **private_test_data2)
+        #private_test_data = dict(private_test_data2, **private_test_data1)
 
     else:
         X_train_private, y_train_private \
