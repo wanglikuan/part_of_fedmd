@@ -6,7 +6,7 @@ import math
 from torch import nn
 from torch.utils.data import Dataset,DataLoader
 from torch.optim import SGD,Adam
-from data_utils import generate_alignment_data,data
+from new_data_utils import generate_alignment_data,data
 
 def train_one_model(model,train_dataloader,test_dataloader,optimizer,epoch,device,criterion, min_delta=0.01,patience=3,
                     with_softmax = True,EarlyStopping=False,is_val = True):
@@ -135,6 +135,7 @@ def get_models_logits(raw_logits, threshold, N_models):  #input:
             if cosdist[index][index2] > thresholdtopk[index]:
                 #print(index,index2,cosdist[index][index2])
                 tmp_logits.append(raw_logits[index2])
+                print("model_id_of_model{0}_used:".format(index), index2)
                 add_model_count += 1
         print("model_num of model {0} used".format(index))
         print("-- {0} --".format(add_model_count))
@@ -225,6 +226,9 @@ class FedMD():
         self.private_data = private_data
         self.private_test_data = private_test_data
         self.N_alignment = FedMD_params['N_alignment']
+
+        print('publice_dataset[y]:', self.public_dataset["y"])
+
 
         self.N_rounds = FedMD_params['N_rounds']
         self.N_logits_matching_round = FedMD_params['N_logits_matching_round']
@@ -350,10 +354,14 @@ class FedMD():
             if r == self.N_rounds:                                   #adddddddddddd
                 #print("logits_test1:")                               #adddddddddddd
                 #print(logits_test1)                               #adddddddddddd
-                print("logits_models:")                       #adddddddddddd
-                print(logits_models)                                        #adddddddddddd
+                #print("logits_models:")                       #adddddddddddd
+                #print(logits_models)                                        #adddddddddddd
                 print("logits_shape:")                       #adddddddddddd
                 print(logits.shape)                                        #adddddddddddd
+                print('private_test_data["y1"]:', self.private_test_data["y1"])
+                print('private_test_data["y2"]:', self.private_test_data["y2"])
+                for index, model in enumerate(self.collaborative_parties):
+                    print("private_data[{0}]['y']:".format(index), self.private_data[index]["y"])
 
             # test performance
             print("test performance ... ")
