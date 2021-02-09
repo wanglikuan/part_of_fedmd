@@ -109,12 +109,13 @@ def get_models_logits(raw_logits, threshold, N_models):  #input:
     models_logits = []
     # threshold = -1 ############# CHANGE ###############
     add_model_count = 0
+    range_models = N_models
 
     for index in range(N_models):
         flatten_logits.append(raw_logits[index].flatten())
 
     for index in range(N_models):
-        for index2 in range(N_models):
+        for index2 in range(range_models):
             if index == index2:
                 tmp_cosdist.append(1)
             else:
@@ -125,15 +126,19 @@ def get_models_logits(raw_logits, threshold, N_models):  #input:
     print("cosdist:")
     print(cosdist)
     thresholdtopk=[]
+    deepcopy_cosdist = copy.deepcopy(cosdist)
     for index in range(N_models):
-        thresholdtopk.append(partitionOfK(cosdist[index], 0, len(cosdist[index]) - 1, int(len(cosdist[index])/2)-1))
+        thresholdtopk.append(partitionOfK(deepcopy_cosdist[index], 0, len(cosdist[index]) - 1, int(len(cosdist[index])/2)-1))
+    print("thresholdtopk:", thresholdtopk)
     #judge threshold
+    
+    
 
     for index in range(N_models):
-        for index2 in range(N_models):
+        for index2 in range(range_models):
             #if cosdist[index][index2] > threshold: #cosdist (-1,1), cosdist small means angle big
             if cosdist[index][index2] > thresholdtopk[index]:
-                #print(index,index2,cosdist[index][index2])
+                print("index,index2,cosdist[index][index2],thresholdtopk[index]:",index,index2,cosdist[index][index2],thresholdtopk[index])
                 tmp_logits.append(raw_logits[index2])
                 print("model_id_of_model{0}_used:".format(index), index2)
                 add_model_count += 1
