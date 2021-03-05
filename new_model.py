@@ -275,7 +275,9 @@ class MobileNetV2(nn.Module):
         )
 
         self.conv2 = nn.Conv2d(1280, num_classes, 1)
-
+#############add fc Linear for MobileNetV2###############
+        self.fc = nn.Linear(num_classes, num_classes, bias=False)
+######################################################
     def forward(self, x):
         x = self.pre(x)
         x = self.stage1(x)
@@ -289,6 +291,7 @@ class MobileNetV2(nn.Module):
         x = F.adaptive_avg_pool2d(x, 1)
         x = self.conv2(x)
         x = x.view(x.size(0), -1)
+        x = self.fc(x)
 
         return x
 
