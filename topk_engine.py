@@ -363,8 +363,8 @@ class FedMD():
                 #print(logits_models)                                        #adddddddddddd
                 print("logits_shape:")                       #adddddddddddd
                 print(logits.shape)                                        #adddddddddddd
-                print('private_test_data["y1"]:', self.private_test_data["y1"])
-                print('private_test_data["y2"]:', self.private_test_data["y2"])
+                #print('private_test_data["y1"]:', self.private_test_data["y1"])
+                #print('private_test_data["y2"]:', self.private_test_data["y2"])
                 for index, model in enumerate(self.collaborative_parties):
                     print("private_data[{0}]['y']:".format(index), self.private_data[index]["y"])
 
@@ -375,7 +375,7 @@ class FedMD():
                 dataloader =  DataLoader(data(self.private_test_data["X{}".format(index)], self.private_test_data["y{}".format(index)]), batch_size=32,
                                         shuffle=True,
                                         sampler=None, batch_sampler=None, num_workers=self.num_workers, drop_last=False)
-                print("model {0} use labels test:".format(index), self.private_test_data["y{}".format(index)])
+                #print("model {0} use labels test:".format(index), self.private_test_data["y{}".format(index)])
 
                 acc = val_one_model(model, dataloader, criterion=None, device=torch.device('cuda'))
 
