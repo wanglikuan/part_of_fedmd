@@ -328,12 +328,16 @@ def generate_test_private_data(X, y, N_parties = 10, classes_in_use = range(11),
 
     N_samples_per_class_list = [None] * 5
     #####代表每个cls采样几个###使用N_samples_per_class_list[N_samples_per_class][list_idx]
+    # N_samples_per_class_list[0]=[10,20,30,40,50,50,40,30,20,10,50]
+    # N_samples_per_class_list[1]=[20,20,40,40,10,10,30,30,50,50,50]
+    # N_samples_per_class_list[2]=[10,30,50,20,40,10,30,50,20,40,50]
+    # N_samples_per_class_list[3]=[50,40,30,20,10,10,20,30,40,50,50]
+    # N_samples_per_class_list[4]=[20,40,10,30,50,20,40,10,30,50,50]   
     N_samples_per_class_list[0]=[10,20,30,40,50,50,40,30,20,10,50]
-    N_samples_per_class_list[1]=[20,20,40,40,10,10,30,30,50,50,50]
-    N_samples_per_class_list[2]=[10,30,50,20,40,10,30,50,20,40,50]
+    N_samples_per_class_list[1]=[20,20,10,40,40,50,50,30,30,10,50]
+    N_samples_per_class_list[2]=[50,50,10,20,20,10,30,30,40,40,50]
     N_samples_per_class_list[3]=[50,40,30,20,10,10,20,30,40,50,50]
-    N_samples_per_class_list[4]=[20,40,10,30,50,20,40,10,30,50,50]   
-
+    N_samples_per_class_list[4]=[20,40,10,30,50,20,40,10,30,50,50] 
 
     #priv_data = [None] * N_parties
     combined_idx = np.array([], dtype = np.int16)
@@ -383,12 +387,16 @@ def generate_bal_private_data(X, y, N_parties = 10, classes_in_use = range(11),
 
     N_samples_per_class_list = [None] * 5
     #####代表每个cls采样几个###使用N_samples_per_class_list[N_samples_per_class][list_idx]
+    # N_samples_per_class_list[0]=[1,2,3,4,5,5,4,3,2,1,5]
+    # N_samples_per_class_list[1]=[2,2,4,4,1,1,3,3,5,5,5]
+    # N_samples_per_class_list[2]=[1,3,5,2,4,1,3,5,2,4,5]
+    # N_samples_per_class_list[3]=[5,4,3,2,1,1,2,3,4,5,5]
+    # N_samples_per_class_list[4]=[2,4,1,3,5,2,4,1,3,5,5]   
     N_samples_per_class_list[0]=[1,2,3,4,5,5,4,3,2,1,5]
-    N_samples_per_class_list[1]=[2,2,4,4,1,1,3,3,5,5,5]
-    N_samples_per_class_list[2]=[1,3,5,2,4,1,3,5,2,4,5]
+    N_samples_per_class_list[1]=[2,2,1,4,4,5,5,3,3,1,5]
+    N_samples_per_class_list[2]=[5,5,1,2,2,1,3,3,4,4,5]
     N_samples_per_class_list[3]=[5,4,3,2,1,1,2,3,4,5,5]
-    N_samples_per_class_list[4]=[2,4,1,3,5,2,4,1,3,5,5]   
-
+    N_samples_per_class_list[4]=[2,4,1,3,5,2,4,1,3,5,5] 
 
     priv_data = [None] * N_parties
     combined_idx = np.array([], dtype = np.int16)

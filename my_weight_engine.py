@@ -425,7 +425,9 @@ class FedMD():
 
                 collaboration_performance[index].append(acc)
                 print(collaboration_performance[index][-1])
-
+                #######写入结果######
+                with open('./result/pc10c_weight.txt', 'a') as f:
+                    f.write('{}\t{}\t{}\n'.format(r, index, acc))
 
             r += 1
             if r > self.N_rounds:
