@@ -129,18 +129,24 @@ def getdataset(args,conf_dict):
         del idx
         ##########合并list与dict#################
         private_data = []
-        for idx in range(N_parties):
+        #print('private_data_tmp[0]:', private_data_tmp[0])
+        for idx in range(N_parties//4):
+            #print('idx:', idx)
             private_data = private_data + private_data_tmp[idx]
             #total_private_data = dict(total_private_data, **total_private_data_tmp[idx])    
         del idx   
 
         dicts = []
         total_private_data = {}
-        for idx in range(N_parties):
+        for idx in range(N_parties//4):
             dicts.append(total_private_data_tmp[idx])
         for d in dicts:
             for k, v in d.items():
-                total_private_data.setdefault(k, []).append(v) 
+                #total_private_data.setdefault(k, []).append(v)
+                try:
+                    total_private_data.setdefault(k, []).extend(v)
+                except TypeError:
+                    total_private_data[k].append(v) 
         ####################################
 
 
@@ -189,7 +195,11 @@ def getdataset(args,conf_dict):
             dicts_private_test_data.append(private_test_data_tmp[idx])
         for d in dicts_private_test_data:
             for k, v in d.items():
-                private_test_data.setdefault(k, []).append(v) 
+                #private_test_data.setdefault(k, []).append(v) 
+                try:
+                    private_test_data.setdefault(k, []).extend(v)
+                except TypeError:
+                    private_test_data[k].append(v)
         # X_tmp1, y_tmp1 = generate_partial_data(X=X_test_private, y=y_test_private,    #主要是mod_private_classes：relabel the selected private data 
         #                                      class_in_use=mod_private_classes1,
         #                                      verbose=True)
