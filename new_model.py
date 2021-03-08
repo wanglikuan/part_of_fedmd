@@ -291,7 +291,7 @@ class MobileNetV2(nn.Module):
         x = F.adaptive_avg_pool2d(x, 1)
         x = self.conv2(x)
         x = x.view(x.size(0), -1)
-        x = self.fc(x)
+        #x = self.fc(x)
 
         return x
 
@@ -450,5 +450,5 @@ class ShuffleNetV2(nn.Module):
         return nn.Sequential(*layers)
 
 def shufflenetv2(num_classes=10):
-    return ShuffleNetV2(num_classes)
+    return ShuffleNetV2(1,num_classes)
 
