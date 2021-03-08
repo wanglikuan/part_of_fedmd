@@ -188,7 +188,8 @@ def train_models(models, X_train, y_train, X_test, y_test,
         test_dataloader = DataLoader(data(X_test, y_test), batch_size=batch_size,
                                       sampler=None,batch_sampler= None,num_workers= num_workers,drop_last = False)
         optimizer = Adam(model.parameters(),lr=0.001)
-        criterion = nn.CrossEntropyLoss().to(device)
+        #criterion = nn.CrossEntropyLoss().to(device)
+        criterion = nn.NLLLoss().to(device)
         train_loss,train_acc,val_loss,val_acc = train_one_model(model, train_dataloader,test_dataloader, optimizer,
                                                                 epochs, device, criterion,  min_delta,patience,
                         EarlyStopping=early_stopping,is_val=True)
@@ -262,7 +263,8 @@ class FedMD():
                                          sampler=None, batch_sampler=None, num_workers=num_workers, drop_last=False)
 
             optimizer = Adam(model_ub.parameters(), lr=0.001)
-            criterion = nn.CrossEntropyLoss()
+            #criterion = nn.CrossEntropyLoss()
+            criterion = nn.NLLLoss().to(device)
 
 
             train_loss, train_acc, val_loss, val_acc = train_one_model(model_ub, train_dataloader, test_dataloader,
@@ -298,7 +300,8 @@ class FedMD():
             test_dataloader = DataLoader(data(private_test_data["X{}".format(i)], private_test_data["y{}".format(i)]), batch_size=batch_size,
                                          sampler=None, batch_sampler=None, num_workers=num_workers, drop_last=False)
             optimizer = Adam(model.parameters(), lr=0.001)
-            criterion = nn.CrossEntropyLoss()
+            #criterion = nn.CrossEntropyLoss()
+            criterion = nn.NLLLoss().to(device)
 
 
             train_loss, train_acc, val_loss, val_acc = train_one_model(model, train_dataloader, test_dataloader,
@@ -415,7 +418,8 @@ class FedMD():
                                               sampler=None, batch_sampler=None, num_workers=self.num_workers, drop_last=False)
                 test_dataloader = None
                 optimizer = Adam(model.parameters(), lr=0.001)
-                criterion = nn.CrossEntropyLoss()
+                #criterion = nn.CrossEntropyLoss()
+                criterion = nn.NLLLoss().to(device)
                 epoch = self.N_private_training_round
 
                 train_one_model(model, train_dataloader, test_dataloader, optimizer, epoch, self.device, criterion,
