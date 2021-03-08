@@ -171,7 +171,7 @@ class ResNet(nn.Module):
         output = self.avg_pool(output)
         output = output.view(output.size(0), -1)
         output = self.fc(output)
-        output = F.log_softmax(output, dim=1) #174
+        output = F.softmax(output, dim=1) #174
 
         return output
 
@@ -292,7 +292,7 @@ class MobileNetV2(nn.Module):
         x = F.adaptive_avg_pool2d(x, 1)
         x = self.conv2(x)
         x = x.view(x.size(0), -1)
-        x = F.log_softmax(x, dim=1) #295
+        x = F.softmax(x, dim=1) #295
         #x = self.fc(x)
 
         return x
@@ -438,7 +438,7 @@ class ShuffleNetV2(nn.Module):
         x = F.adaptive_avg_pool2d(x, 1)
         x = x.view(x.size(0), -1)
         x = self.fc(x)
-        x = F.log_softmax(x, dim=1)
+        x = F.softmax(x, dim=1)
 
         return x
 

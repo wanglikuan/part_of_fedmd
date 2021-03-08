@@ -22,6 +22,7 @@ def train_one_model(model,train_dataloader,test_dataloader,optimizer,epoch,devic
             images, labels = images.to(device), labels.to(device)
             model.zero_grad()
             log_probs = model(images)
+            log_probs = torch.log(log_probs)
             if with_softmax:
                 loss = criterion(log_probs, labels)
                 loss.backward()
@@ -53,6 +54,7 @@ def val_one_model(model,dataloader,criterion=None,device= torch.device('cuda')):
         for batch_idx, (images, labels) in enumerate(dataloader):
             images, labels = images.to(device), labels.to(device)
             log_probs = model(images)
+            log_probs = torch.log(log_probs)
             if criterion is not None:
                 loss = criterion(log_probs, labels)
                 loss_out.append(loss.item())
@@ -431,7 +433,7 @@ class FedMD():
                 collaboration_performance[index].append(acc)
                 print(collaboration_performance[index][-1])
                 #######写入结果######
-                with open('./result/pc10c_weight.txt', 'a') as f:
+                with open('./result/pc10c_softmax_weight.txt', 'a') as f:
                     f.write('{}\t{}\t{}\n'.format(r, index, acc))
 
             r += 1
@@ -449,8 +451,8 @@ class FedMD():
                 test_dataloader = None
                 optimizer = Adam(model.parameters(), lr=0.001)
 
-                #criterion = nn.MSELoss()
-                criterion = nn.NLLLoss().to(device)
+                criterion = nn.MSELoss()
+                #criterion = nn.NLLLoss().to(device)
                 
                 epoch = self.N_logits_matching_round
 
